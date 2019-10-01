@@ -5,12 +5,12 @@
 #-------------------------------------------------
 
 # Version
-VT_VERSION = 1.19
+VT_VERSION = 1.23
 VT_INTRO_VERSION = 1
 
-VT_ANDROID_VERSION_ARMV7 = 34
-VT_ANDROID_VERSION_ARM64 = 35
-VT_ANDROID_VERSION_X86 = 36
+VT_ANDROID_VERSION_ARMV7 = 47
+VT_ANDROID_VERSION_ARM64 = 48
+VT_ANDROID_VERSION_X86 = 49
 
 VT_ANDROID_VERSION = $$VT_ANDROID_VERSION_X86
 
@@ -34,6 +34,9 @@ DEFINES += HAS_BLUETOOTH
 
 # Debug build (e.g. F5 to reload QML files)
 #DEFINES += DEBUG_BUILD
+
+# Positioning
+DEFINES += HAS_POS
 
 !android: {
     # Serial port available
@@ -65,6 +68,10 @@ contains(DEFINES, HAS_CANBUS) {
 
 contains(DEFINES, HAS_BLUETOOTH) {
     QT       += bluetooth
+}
+
+contains(DEFINES, HAS_POS) {
+    QT       += positioning
 }
 
 android: QT += androidextras
@@ -148,7 +155,8 @@ SOURCES += main.cpp\
     setupwizardapp.cpp \
     setupwizardmotor.cpp \
     startupwizard.cpp \
-    utility.cpp
+    utility.cpp \
+    tcpserversimple.cpp
 
 HEADERS  += mainwindow.h \
     packet.h \
@@ -163,7 +171,8 @@ HEADERS  += mainwindow.h \
     setupwizardapp.h \
     setupwizardmotor.h \
     startupwizard.h \
-    utility.h
+    utility.h \
+    tcpserversimple.h
 
 FORMS    += mainwindow.ui \
     parametereditor.ui
@@ -176,6 +185,7 @@ contains(DEFINES, HAS_BLUETOOTH) {
 include(pages/pages.pri)
 include(widgets/widgets.pri)
 include(mobile/mobile.pri)
+include(map/map.pri)
 
 RESOURCES += res.qrc
 
@@ -215,6 +225,8 @@ DISTFILES += \
     android/gradlew \
     android/res/values/libs.xml \
     android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.properties
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/src/com/vedder/vesc/VForegroundService.java \
+    android/src/com/vedder/vesc/Utils.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

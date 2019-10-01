@@ -59,6 +59,8 @@ public:
     Q_INVOKABLE QVector<int> getLimitedCompatibilityCommands() const;
     void setLimitedCompatibilityCommands(QVector<int> compatibilityCommands);
 
+    Q_INVOKABLE static QString faultToStr(mc_fault_code fault);
+
 signals:
     void dataToSend(QByteArray &data);
 
@@ -73,6 +75,7 @@ signals:
     void decodedPpmReceived(double value, double last_len);
     void decodedAdcReceived(double value, double voltage, double value2, double voltage2);
     void decodedChukReceived(double value);
+    void decodedBalanceReceived(BALANCE_VALUES values);
     void motorRLReceived(double r, double l);
     void motorLinkageReceived(double flux_linkage);
     void encoderParamReceived(double offset, double ratio, bool inverted);
@@ -96,6 +99,7 @@ signals:
     void plotDataReceived(double x, double y);
     void plotAddGraphReceived(QString name);
     void plotSetGraphReceived(int graph);
+    void bmReadMemRes(int res, QByteArray data);
 
 public slots:
     void processPacket(QByteArray data);
@@ -124,6 +128,7 @@ public slots:
     void getDecodedPpm();
     void getDecodedAdc();
     void getDecodedChuk();
+    void getDecodedBalance();
     void setServoPos(double pos);
     void measureRL();
     void measureLinkage(double current, double min_rpm, double low_duty, double resistance);
@@ -159,6 +164,7 @@ public slots:
     void bmDisconnect();
     void bmMapPinsDefault();
     void bmMapPinsNrf5x();
+    void bmReadMem(uint32_t addr, quint16 size);
 
 private slots:
     void timerSlot();
@@ -166,7 +172,6 @@ private slots:
 private:
     void emitData(QByteArray data);
     void firmwareUploadUpdate(bool isTimeout);
-    QString faultToStr(mc_fault_code fault);
 
     QTimer *mTimer;
     bool mSendCan;
@@ -202,6 +207,7 @@ private:
     int mTimeoutDecPpm;
     int mTimeoutDecAdc;
     int mTimeoutDecChuk;
+    int mTimeoutDecBalance;
     int mTimeoutPingCan;
 
 };

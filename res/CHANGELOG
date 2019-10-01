@@ -1,3 +1,42 @@
+== 1.23 ==
+* Added more data to log analysis:
+ - GNSS Accuracy.
+ - Values for first VESC on CAN-bus.
+ - Latitude and longitude.
+ - GNSS vertical speed and accuracy.
+ - Number of VESCs.
+
+== 1.22 ==
+* Use foregroud service to keep GNSS alive during logging.
+* Always use wake lock during logging.
+
+== 1.21 ==
+* Only hide GUI when the application enters the hidden state.
+* Opengl ES2 for static linux build.
+
+== 1.20 ==
+* Added TCP server to mobile version.
+* Remember log files location.
+* Added comperhensive log analysis page.
+* Added GNSS data to RT log.
+* Added setup data to RT log.
+* Added IMU data to RT log.
+* Use imperial units in profiles as well when selected.
+* Allow running in background.
+* Added wake lock when VESC is connected on Android.
+* Added flash verification option to SWD programming.
+* Added IMU 3D view to desktop version.
+* Fixed FW upload button flickering bug.
+* EUC app support.
+* FW 3.62 support:
+ - EUC app.
+ - Fixed NRF remote reverse bug.
+ - Added COMM_BM_MEM_READ.
+* New Wand firmware:
+ - Possible freeze fix.
+ - Added joystick error detection.
+ - Switch between imperial and metric by holding both buttons.
+
 == 1.19 ==
 * Display prefix and suffix correctly in mobile app.
 * FW 3.61 support:

@@ -299,6 +299,7 @@ void MainWindow::timerSlot()
         mVesc->commands()->getDecodedAdc();
         mVesc->commands()->getDecodedChuk();
         mVesc->commands()->getDecodedPpm();
+        mVesc->commands()->getDecodedBalance();
     }
 
     // IMU Data
@@ -951,6 +952,12 @@ void MainWindow::reloadPages()
     addPageItem(tr("Nrf"), "://res/icons/Online-96.png",
                 "://res/icons/appconf.png", false, true);
 
+    mPageAppBalance = new PageAppBalance(this);
+    mPageAppBalance->setVesc(mVesc);
+    ui->pageWidget->addWidget(mPageAppBalance);
+    addPageItem(tr("Balance"), "://res/icons/EUC-96.png",
+                "://res/icons/appconf.png", false, true);
+
     mPageAppImu = new PageAppImu(this);
     mPageAppImu->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageAppImu);
@@ -976,6 +983,11 @@ void MainWindow::reloadPages()
     mPageImu->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageImu);
     addPageItem(tr("IMU Data"), "://res/icons/Line Chart-96.png", "", false, true);
+
+    mPageLogAnalysis = new PageLogAnalysis(this);
+    mPageLogAnalysis->setVesc(mVesc);
+    ui->pageWidget->addWidget(mPageLogAnalysis);
+    addPageItem(tr("Log Analysis"), "://res/icons/Waypoint Map-96.png", "", false, true);
 
     mPageTerminal = new PageTerminal(this);
     mPageTerminal->setVesc(mVesc);
