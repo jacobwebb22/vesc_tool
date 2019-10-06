@@ -57,6 +57,7 @@ private:
     Ui::PageLogAnalysis *ui;
     VescInterface *mVesc;
     QCPCurve *mVerticalLine;
+    int mVerticalLineMsLast;
     Vesc3DView *m3dView;
     QCheckBox *mUseYawBox;
     QVector<LOG_DATA> mLogData;
@@ -64,12 +65,13 @@ private:
     QTimer *mPlayTimer;
     double mPlayPosNow;
 
-    void truncateDataAndPlot();
+    void truncateDataAndPlot(bool zoomGraph = true);
     void updateGraphs();
     void updateStats();
     void updateDataAndPlot(double time);
     LOG_DATA getLogSample(int timeMs);
     double getDistGnssSample(int timeMs);
+    void updateTileServers();
 
 };
 

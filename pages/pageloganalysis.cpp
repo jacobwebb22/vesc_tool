@@ -29,6 +29,9 @@ PageLogAnalysis::PageLogAnalysis(QWidget *parent) :
 {
     ui->setupUi(this);
     mVesc = nullptr;
+
+    updateTileServers();
+
     ui->spanSlider->setMinimum(0);
     ui->spanSlider->setMaximum(10000);
     ui->spanSlider->setValue(10000);
@@ -63,9 +66,14 @@ PageLogAnalysis::PageLogAnalysis(QWidget *parent) :
     connect(mPlayTimer, &QTimer::timeout, [this]() {
         if (ui->playButton->isChecked()) {
             mPlayPosNow += double(mPlayTimer->interval()) / 1000.0;
+
+            int timeMs = mLogDataTruncated.last().valTime - mLogDataTruncated.first().valTime;
+            if (timeMs < 0) { // Handle midnight
+                timeMs += 60 * 60 * 24 * 1000;
+            }
+
             if (mLogDataTruncated.size() > 0 &&
-                    mPlayPosNow <= (mLogDataTruncated.last().valTime -
-                    mLogDataTruncated.first().valTime) / 1000.0) {
+                    mPlayPosNow <= double(timeMs) / 1000.0) {
                 updateDataAndPlot(mPlayPosNow);
             } else {
                 ui->playButton->setChecked(false);
@@ -160,6 +168,7 @@ PageLogAnalysis::PageLogAnalysis(QWidget *parent) :
     mVerticalLine = new QCPCurve(ui->plot->xAxis, ui->plot->yAxis);
     mVerticalLine->removeFromLegend();
     mVerticalLine->setPen(QPen(Qt::black));
+    mVerticalLineMsLast = -1;
 
     auto updateMouse = [this](QMouseEvent *event) {
         if (event->modifiers() == Qt::ShiftModifier) {
@@ -188,18 +197,37 @@ PageLogAnalysis::PageLogAnalysis(QWidget *parent) :
         updateMouse(event);
     });
 
+    connect(ui->plot, &QCustomPlot::mouseWheel, [this](QWheelEvent *event) {
+        if (event->modifiers() == Qt::ShiftModifier) {
+            ui->plot->axisRect()->setRangeZoom(Qt::Vertical);
+            ui->plot->axisRect()->setRangeDrag(Qt::Vertical);
+        } else {
+            ui->plot->axisRect()->setRangeZoom(nullptr);
+            ui->plot->axisRect()->setRangeDrag(nullptr);
+
+            double upper = ui->plot->xAxis->range().upper;
+            double progress = ui->plot->xAxis->pixelToCoord(event->x()) / upper;
+            double diff = event->delta();
+            double d1 = diff * progress;
+            double d2 = diff * (1.0 - progress);
+
+            ui->spanSlider->alt_setValue(ui->spanSlider->alt_value() + int(d1));
+            ui->spanSlider->setValue(ui->spanSlider->value() - int(d2));
+        }
+    });
+
     connect(ui->spanSlider, &SuperSlider::alt_valueChanged, [this](int value) {
         if (value >= ui->spanSlider->value()) {
             ui->spanSlider->setValue(value);
         }
-        truncateDataAndPlot();
+        truncateDataAndPlot(ui->autoZoomBox->isChecked());
     });
 
     connect(ui->spanSlider, &SuperSlider::valueChanged, [this](int value) {
         if (value <= ui->spanSlider->alt_value()) {
             ui->spanSlider->alt_setValue(value);
         }
-        truncateDataAndPlot();
+        truncateDataAndPlot(ui->autoZoomBox->isChecked());
     });
 
     connect(ui->dataTable, &QTableWidget::itemSelectionChanged, [this]() {
@@ -243,6 +271,18 @@ void PageLogAnalysis::on_openCurrentButton_clicked()
 {
     if (mVesc) {
         mLogData = mVesc->getRtLogData();
+
+        double i_llh[3];
+        for (auto d: mLogData) {
+            if (d.posTime >= 0) {
+                i_llh[0] = d.lat;
+                i_llh[1] = d.lon;
+                i_llh[2] = d.alt;
+                ui->map->setEnuRef(i_llh[0], i_llh[1], i_llh[2]);
+                break;
+            }
+        }
+
         truncateDataAndPlot();
     }
 }
@@ -254,33 +294,31 @@ void PageLogAnalysis::on_gridBox_toggled(bool checked)
 
 void PageLogAnalysis::on_tilesHiResButton_toggled(bool checked)
 {
-    if (checked) {
-        ui->map->osmClient()->setTileServerUrl("http://c.osm.rrze.fau.de/osmhd");
-        ui->map->osmClient()->clearCache();
-        ui->map->update();
-    }
+    (void)checked;
+    updateTileServers();
+    ui->map->update();
 }
 
 void PageLogAnalysis::on_tilesOsmButton_toggled(bool checked)
 {
-    if (checked) {
-        ui->map->osmClient()->setTileServerUrl("http://tile.openstreetmap.org");
-        ui->map->osmClient()->clearCache();
-        ui->map->update();
-    }
+    (void)checked;
+    updateTileServers();
+    ui->map->update();
 }
 
-void PageLogAnalysis::truncateDataAndPlot()
+void PageLogAnalysis::truncateDataAndPlot(bool zoomGraph)
 {
+    double start = double(ui->spanSlider->alt_value()) / 10000.0;
+    double end = double(ui->spanSlider->value()) / 10000.0;
+
     ui->map->setInfoTraceNow(0);
     ui->map->clearAllInfoTraces();
 
-    double i_llh[3];
-    bool i_llh_set = false;
-
     int ind = 0;
-    double start = double(ui->spanSlider->alt_value()) / 10000.0;
-    double end = double(ui->spanSlider->value()) / 10000.0;
+    double i_llh[3];
+    int posTimeLast = -1;
+
+    ui->map->getEnuRef(i_llh);
     mLogDataTruncated.clear();
 
     for (auto d: mLogData) {
@@ -292,15 +330,7 @@ void PageLogAnalysis::truncateDataAndPlot()
 
         mLogDataTruncated.append(d);
 
-        if (d.posTime >= 0) {
-            if (!i_llh_set) {
-                i_llh[0] = d.lat;
-                i_llh[1] = d.lon;
-                i_llh[2] = d.alt;
-                ui->map->setEnuRef(i_llh[0], i_llh[1], i_llh[2]);
-                i_llh_set = true;
-            }
-
+        if (d.posTime >= 0 && posTimeLast != d.posTime) {
             double llh[3];
             double xyz[3];
 
@@ -317,10 +347,14 @@ void PageLogAnalysis::truncateDataAndPlot()
             p.setInfo(info);
 
             ui->map->addInfoPoint(p, false);
+            posTimeLast = d.posTime;
         }
     }
 
-    ui->map->zoomInOnInfoTrace(-1, 0.1);
+    if (zoomGraph) {
+        ui->map->zoomInOnInfoTrace(-1, 0.1);
+    }
+
     ui->map->update();
     updateGraphs();
     updateStats();
@@ -344,6 +378,9 @@ void PageLogAnalysis::updateGraphs()
         firstData = mLogDataTruncated.first();
     }
 
+    double verticalTime = -1.0;
+    LocPoint p, p2;
+
     for (LOG_DATA d: mLogDataTruncated) {
         if (startTime < 0) {
             startTime = d.valTime;
@@ -351,7 +388,11 @@ void PageLogAnalysis::updateGraphs()
 
         int timeMs = d.valTime - startTime;
         if (timeMs < 0) { // Handle midnight
-            timeMs += 60 * 60 * 24;
+            timeMs += 60 * 60 * 24 * 1000;
+        }
+
+        if (mVerticalLineMsLast == d.valTime) {
+            verticalTime = double(timeMs) / 1000.0;
         }
 
         xAxis.append(double(timeMs) / 1000.0);
@@ -368,7 +409,6 @@ void PageLogAnalysis::updateGraphs()
                 llh[2] = d.alt;
                 Utility::llhToEnu(i_llh, llh, xyz);
 
-                LocPoint p;
                 p.setXY(xyz[0], xyz[1]);
                 p.setRadius(10);
 
@@ -377,7 +417,6 @@ void PageLogAnalysis::updateGraphs()
                 llh[2] = prevSampleGnss.alt;
                 Utility::llhToEnu(i_llh, llh, xyz);
 
-                LocPoint p2;
                 p2.setXY(xyz[0], xyz[1]);
                 p2.setRadius(10);
 
@@ -684,6 +723,14 @@ void PageLogAnalysis::updateGraphs()
         ui->plot->xAxis->setRangeUpper(xAxis.last());
     }
 
+    if (verticalTime >= 0) {
+        QVector<double> x(2) , y(2);
+        x[0] = verticalTime; y[0] = ui->plot->yAxis->range().lower;
+        x[1] = verticalTime; y[1] = ui->plot->yAxis->range().upper;
+        mVerticalLine->setData(x, y);
+        mVerticalLine->setVisible(true);
+    }
+
     ui->plot->replot();
 }
 
@@ -750,7 +797,7 @@ void PageLogAnalysis::updateStats()
 
     timeTotMs = endSample.valTime - startSample.valTime;
     if (timeTotMs < 0) { // Handle midnight
-        timeTotMs += 60 * 60 * 24;
+        timeTotMs += 60 * 60 * 24 * 1000;
     }
 
     meters = endSample.setupValues.tachometer - startSample.setupValues.tachometer;
@@ -822,10 +869,11 @@ void PageLogAnalysis::updateDataAndPlot(double time)
     ui->plot->replot();
 
     LOG_DATA d = getLogSample(int(time * 1000));
+    mVerticalLineMsLast = d.valTime;
 
     int timeTotMs = d.valTime - getLogSample(0).valTime;
     if (timeTotMs < 0) { // Handle midnight
-        timeTotMs += 60 * 60 * 24;
+        timeTotMs += 60 * 60 * 24 * 1000;
     }
 
     ui->dataTable->item(0, 1)->setText(QString::number(d.setupValues.speed * 3.6, 'f', 2) + " km/h");
@@ -923,7 +971,7 @@ LOG_DATA PageLogAnalysis::getLogSample(int timeMs)
         for (LOG_DATA dn: mLogDataTruncated) {
             int timeMsNow = dn.valTime - startTime;
             if (timeMsNow < 0) { // Handle midnight
-                timeMsNow += 60 * 60 * 24;
+                timeMsNow += 60 * 60 * 24 * 1000;
             }
 
             if (timeMsNow >= timeMs) {
@@ -949,7 +997,7 @@ double PageLogAnalysis::getDistGnssSample(int timeMs)
     for (LOG_DATA d: mLogDataTruncated) {
         int timeMsNow = d.valTime - mLogDataTruncated.first().valTime;
         if (timeMsNow < 0) { // Handle midnight
-            timeMsNow += 60 * 60 * 24;
+            timeMsNow += 60 * 60 * 24 * 1000;
         }
 
         if (d.posTime < 0) {
@@ -1001,6 +1049,19 @@ double PageLogAnalysis::getDistGnssSample(int timeMs)
     }
 
     return metersGnss;
+}
+
+void PageLogAnalysis::updateTileServers()
+{
+    if (ui->tilesOsmButton->isChecked()) {
+        ui->map->osmClient()->setTileServerUrl("http://tile.openstreetmap.org");
+        ui->map->osmClient()->setCacheDir("osm_tiles/osm");
+        ui->map->osmClient()->clearCacheMemory();
+    } else if (ui->tilesHiResButton->isChecked()) {
+        ui->map->osmClient()->setTileServerUrl("http://c.osm.rrze.fau.de/osmhd");
+        ui->map->osmClient()->setCacheDir("osm_tiles/hd");
+        ui->map->osmClient()->clearCacheMemory();
+    }
 }
 
 void PageLogAnalysis::on_saveMapPdfButton_clicked()
