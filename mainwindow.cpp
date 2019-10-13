@@ -836,7 +836,7 @@ void MainWindow::reloadPages()
         ui->pageWidget->removeWidget(widget);
         widget->deleteLater();
     }
-
+	/*
     mPageWelcome = new PageWelcome(this);
     mPageWelcome->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageWelcome);
@@ -847,7 +847,7 @@ void MainWindow::reloadPages()
             mPageWelcome, SLOT(startSetupWizardMotor()));
     connect(ui->actionAppSetupWizard, SIGNAL(triggered(bool)),
             mPageWelcome, SLOT(startSetupWizardApp()));
-
+	*/
     mPageConnection = new PageConnection(this);
     mPageConnection->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageConnection);
@@ -857,18 +857,18 @@ void MainWindow::reloadPages()
     mPageFirmware->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageFirmware);
     addPageItem(tr("Firmware"), "://res/icons/Electronics-96.png", "", true);
-
+	/*
     mPageMotorSettings = new PageMotorSettings(this);
     mPageMotorSettings->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageMotorSettings);
     addPageItem(tr("Motor Settings"), "://res/icons/motor.png", "", true);
-
+	
     mPageMotor = new PageMotor(this);
     mPageMotor->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageMotor);
     addPageItem(tr("General"), "://res/icons/Horizontal Settings Mixer-96.png",
                 "://res/icons/mcconf.png", false, true);
-
+	
     mPageBldc = new PageBldc(this);
     mPageBldc->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageBldc);
@@ -880,25 +880,25 @@ void MainWindow::reloadPages()
     ui->pageWidget->addWidget(mPageDc);
     addPageItem(tr("DC"), "://res/icons/Car Battery-96.png",
                 "://res/icons/mcconf.png", false, true);
-
+	*/
     mPageFoc = new PageFoc(this);
     mPageFoc->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageFoc);
     addPageItem(tr("FOC"), "://res/icons/3ph_sine.png",
                 "://res/icons/mcconf.png", false, true);
-
+	/*
     mPageGpd = new PageGPD(this);
     mPageGpd->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageGpd);
     addPageItem(tr("GPDrive"), "://res/icons/3ph_sine.png",
                 "://res/icons/mcconf.png", false, true);
-
+	*/
     mPageControllers = new PageControllers(this);
     mPageControllers->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageControllers);
     addPageItem(tr("PID Controllers"), "://res/icons/Speed-96.png",
                 "://res/icons/mcconf.png", false, true);
-
+	/*
     mPageMotorInfo = new PageMotorInfo(this);
     mPageMotorInfo->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageMotorInfo);
@@ -968,12 +968,12 @@ void MainWindow::reloadPages()
     mPageDataAnalysis->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageDataAnalysis);
     addPageItem(tr("Data Analysis"), "://res/icons/Line Chart-96.png", "", true);
-
+	*/
     mPageRtData = new PageRtData(this);
     mPageRtData->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageRtData);
     addPageItem(tr("Realtime Data"), "://res/icons/rt_off.png", "", false, true);
-
+	/*
     mPageSampledData = new PageSampledData(this);
     mPageSampledData->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageSampledData);
@@ -988,12 +988,12 @@ void MainWindow::reloadPages()
     mPageLogAnalysis->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageLogAnalysis);
     addPageItem(tr("Log Analysis"), "://res/icons/Waypoint Map-96.png", "", false, true);
-
+	*/
     mPageTerminal = new PageTerminal(this);
     mPageTerminal->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageTerminal);
     addPageItem(tr("VESC Terminal"), "://res/icons/Console-96.png", "", true);
-
+	/*
     mPageSwdProg = new PageSwdProg(this);
     mPageSwdProg->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageSwdProg);
@@ -1002,7 +1002,7 @@ void MainWindow::reloadPages()
     mPageDebugPrint = new PageDebugPrint(this);
     ui->pageWidget->addWidget(mPageDebugPrint);
     addPageItem(tr("Debug Console"), "://res/icons/Bug-96.png", "", true);
-
+	*/
     mPageSettings = new PageSettings(this);
     ui->pageWidget->addWidget(mPageSettings);
     addPageItem(tr("VESC Tool Settings"), "://res/icons/Settings-96.png", "", true);
