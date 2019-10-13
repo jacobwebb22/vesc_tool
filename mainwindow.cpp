@@ -70,7 +70,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
     str.sprintf("%s (%s:%u %s): %s", typeStr.toLocal8Bit().data(),
                 context.file, context.line, context.function, localMsg.constData());
-
+	/*
     if (PageDebugPrint::currentMsgHandler) {
         QString strTmp;
         if (isBad) {
@@ -82,7 +82,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         QMetaObject::invokeMethod(PageDebugPrint::currentMsgHandler, "printConsole",
                                   Qt::QueuedConnection, Q_ARG(QString, strTmp));
     }
-
+	*/
     printf("%s\n", str.toLocal8Bit().data());
     fflush(stdout);
 }
@@ -161,7 +161,7 @@ MainWindow::MainWindow(QWidget *parent) :
         }
     }
 
-    mPageDebugPrint->printConsole("VESC® Tool " + mVersion + " started<br>");
+    //mPageDebugPrint->printConsole("VESC® Tool " + mVersion + " started<br>");
 }
 
 MainWindow::~MainWindow()
@@ -278,7 +278,7 @@ void MainWindow::timerSlot()
             mStatusLabel->setText(mVesc->getConnectedPortName());
             static QString statusLast = "";
             if (str != statusLast) {
-                mPageDebugPrint->printConsole("Status: " + str + "<br>");
+                //mPageDebugPrint->printConsole("Status: " + str + "<br>");
                 statusLast = str;
             }
         }
@@ -422,10 +422,10 @@ void MainWindow::showStatusInfo(QString info, bool isGood)
 {
     if (isGood) {
         mStatusLabel->setStyleSheet("QLabel { background-color : lightgreen; color : black; }");
-        mPageDebugPrint->printConsole("Status: " + info + "<br>");
+        //mPageDebugPrint->printConsole("Status: " + info + "<br>");
     } else {
         mStatusLabel->setStyleSheet("QLabel { background-color : red; color : black; }");
-        mPageDebugPrint->printConsole("<font color=\"red\">Status: " + info + "</font><br>");
+        //mPageDebugPrint->printConsole("<font color=\"red\">Status: " + info + "</font><br>");
     }
 
     mStatusInfoTime = 80;
@@ -562,7 +562,7 @@ void MainWindow::on_actionReboot_triggered()
 void MainWindow::on_stopButton_clicked()
 {
     mVesc->commands()->setCurrent(0);
-    mPageExperiments->stop();
+    //mPageExperiments->stop();
     ui->actionSendAlive->setChecked(false);
 }
 
@@ -915,7 +915,7 @@ void MainWindow::reloadPages()
     mPageAppSettings->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageAppSettings);
     addPageItem(tr("App Settings"), "://res/icons/Outgoing Data-96.png", "", true);
-
+	
     mPageAppGeneral = new PageAppGeneral(this);
     mPageAppGeneral->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageAppGeneral);
@@ -963,7 +963,7 @@ void MainWindow::reloadPages()
     ui->pageWidget->addWidget(mPageAppImu);
     addPageItem(tr("IMU"), "://res/icons/Gyroscope-96.png",
                 "://res/icons/appconf.png", false, true);
-
+	
     mPageDataAnalysis = new PageDataAnalysis(this);
     mPageDataAnalysis->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageDataAnalysis);

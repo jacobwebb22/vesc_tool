@@ -28,36 +28,36 @@
 #include "vescinterface.h"
 #include "widgets/pagelistitem.h"
 
-#include "pages/pagewelcome.h"
+//#include "pages/pagewelcome.h"
 #include "pages/pageconnection.h"
-#include "pages/pagedataanalysis.h"
+//#include "pages/pagedataanalysis.h"
 #include "pages/pagertdata.h"
-#include "pages/pagesampleddata.h"
+//#include "pages/pagesampleddata.h"
 #include "pages/pageterminal.h"
 #include "pages/pagefirmware.h"
-#include "pages/pagedebugprint.h"
-#include "pages/pagemotorsettings.h"
-#include "pages/pagemotor.h"
-#include "pages/pagebldc.h"
-#include "pages/pagedc.h"
+//#include "pages/pagedebugprint.h"
+//#include "pages/pagemotorsettings.h"
+//#include "pages/pagemotor.h"
+//#include "pages/pagebldc.h"
+//#include "pages/pagedc.h"
 #include "pages/pagefoc.h"
 #include "pages/pagecontrollers.h"
-#include "pages/pagemotorinfo.h"
-#include "pages/pageappsettings.h"
-#include "pages/pageappgeneral.h"
-#include "pages/pageappppm.h"
-#include "pages/pageappadc.h"
-#include "pages/pageappuart.h"
-#include "pages/pageappnunchuk.h"
-#include "pages/pageappnrf.h"
-#include "pages/pageappbalance.h"
+//#include "pages/pagemotorinfo.h"
+//#include "pages/pageappsettings.h"
+//#include "pages/pageappgeneral.h"
+//#include "pages/pageappppm.h"
+//#include "pages/pageappadc.h"
+//#include "pages/pageappuart.h"
+//#include "pages/pageappnunchuk.h"
+//#include "pages/pageappnrf.h"
+//#include "pages/pageappbalance.h"
 #include "pages/pagesettings.h"
-#include "pages/pagegpd.h"
-#include "pages/pageexperiments.h"
-#include "pages/pageimu.h"
-#include "pages/pageswdprog.h"
-#include "pages/pageappimu.h"
-#include "pages/pageloganalysis.h"
+//#include "pages/pagegpd.h"
+//#include "pages/pageexperiments.h"
+//#include "pages/pageimu.h"
+//#include "pages/pageswdprog.h"
+//#include "pages/pageappimu.h"
+//#include "pages/pageloganalysis.h"
 
 namespace Ui {
 class MainWindow;
@@ -145,36 +145,36 @@ private:
     bool mMcConfRead;
     bool mAppConfRead;
 
-    PageWelcome *mPageWelcome;
+    //PageWelcome *mPageWelcome;
     PageConnection *mPageConnection;
-    PageDataAnalysis *mPageDataAnalysis;
+    //PageDataAnalysis *mPageDataAnalysis;
     PageRtData *mPageRtData;
-    PageSampledData *mPageSampledData;
-    PageImu *mPageImu;
+    //PageSampledData *mPageSampledData;
+    //PageImu *mPageImu;
     PageTerminal *mPageTerminal;
     PageFirmware *mPageFirmware;
-    PageDebugPrint *mPageDebugPrint;
-    PageMotorSettings *mPageMotorSettings;
-    PageMotor *mPageMotor;
-    PageBldc *mPageBldc;
-    PageDc *mPageDc;
+    //PageDebugPrint *mPageDebugPrint;
+    //PageMotorSettings *mPageMotorSettings;
+    //PageMotor *mPageMotor;
+    //PageBldc *mPageBldc;
+    //PageDc *mPageDc;
     PageFoc *mPageFoc;
-    PageGPD *mPageGpd;
+    //PageGPD *mPageGpd;
     PageControllers *mPageControllers;
-    PageMotorInfo *mPageMotorInfo;
-    PageExperiments *mPageExperiments;
-    PageAppSettings *mPageAppSettings;
-    PageAppGeneral *mPageAppGeneral;
-    PageAppPpm *mPageAppPpm;
-    PageAppAdc *mPageAppAdc;
-    PageAppUart *mPageAppUart;
-    PageAppNunchuk *mPageAppNunchuk;
-    PageAppNrf *mPageAppNrf;
-    PageAppBalance *mPageAppBalance;
+    //PageMotorInfo *mPageMotorInfo;
+    //PageExperiments *mPageExperiments;
+    //PageAppSettings *mPageAppSettings;
+    //PageAppGeneral *mPageAppGeneral;
+    //PageAppPpm *mPageAppPpm;
+    //PageAppAdc *mPageAppAdc;
+    //PageAppUart *mPageAppUart;
+    //PageAppNunchuk *mPageAppNunchuk;
+    //PageAppNrf *mPageAppNrf;
+    //PageAppBalance *mPageAppBalance;
     PageSettings *mPageSettings;
-    PageSwdProg *mPageSwdProg;
-    PageAppImu *mPageAppImu;
-    PageLogAnalysis *mPageLogAnalysis;
+    //PageSwdProg *mPageSwdProg;
+    //PageAppImu *mPageAppImu;
+    //PageLogAnalysis *mPageLogAnalysis;
 
     void addPageItem(QString name,
                      QString icon = "",
