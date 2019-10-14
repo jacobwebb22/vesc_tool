@@ -851,12 +851,12 @@ void MainWindow::reloadPages()
     mPageConnection = new PageConnection(this);
     mPageConnection->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageConnection);
-    addPageItem(tr("Connection"), "://res/icons/Connected-96.png", "", true);
+    addPageItem(tr("CONNECTION"), "://res/icons/Connected-96.png","", true, false);
 
     mPageFirmware = new PageFirmware(this);
     mPageFirmware->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageFirmware);
-    addPageItem(tr("Firmware"), "://res/icons/Electronics-96.png", "", true);
+    addPageItem(tr("FIRMWARE"), "://res/icons/Electronics-96.png","", true, false);
 	/*
     mPageMotorSettings = new PageMotorSettings(this);
     mPageMotorSettings->setVesc(mVesc);
@@ -884,8 +884,7 @@ void MainWindow::reloadPages()
     mPageFoc = new PageFoc(this);
     mPageFoc->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageFoc);
-    addPageItem(tr("FOC"), "://res/icons/3ph_sine.png",
-                "://res/icons/mcconf.png", false, true);
+    addPageItem(tr("FOC"), "://res/icons/3ph_sine.png", "", true, false);
 	/*
     mPageGpd = new PageGPD(this);
     mPageGpd->setVesc(mVesc);
@@ -896,8 +895,7 @@ void MainWindow::reloadPages()
     mPageControllers = new PageControllers(this);
     mPageControllers->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageControllers);
-    addPageItem(tr("PID Controllers"), "://res/icons/Speed-96.png",
-                "://res/icons/mcconf.png", false, true);
+    addPageItem(tr("PID"), "://res/icons/Speed-96.png", "", true, false);
 	/*
     mPageMotorInfo = new PageMotorInfo(this);
     mPageMotorInfo->setVesc(mVesc);
@@ -972,7 +970,7 @@ void MainWindow::reloadPages()
     mPageRtData = new PageRtData(this);
     mPageRtData->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageRtData);
-    addPageItem(tr("Realtime Data"), "://res/icons/rt_off.png", "", false, true);
+    addPageItem(tr("REAL-TIME DATA"), "://res/icons/rt_off.png", "", true, false);
 	/*
     mPageSampledData = new PageSampledData(this);
     mPageSampledData->setVesc(mVesc);
@@ -992,7 +990,7 @@ void MainWindow::reloadPages()
     mPageTerminal = new PageTerminal(this);
     mPageTerminal->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageTerminal);
-    addPageItem(tr("VESC Terminal"), "://res/icons/Console-96.png", "", true);
+    addPageItem(tr("TERMINAL"), "://res/icons/Console-96.png", "", true, false);
 	/*
     mPageSwdProg = new PageSwdProg(this);
     mPageSwdProg->setVesc(mVesc);
@@ -1005,7 +1003,7 @@ void MainWindow::reloadPages()
 	*/
     mPageSettings = new PageSettings(this);
     ui->pageWidget->addWidget(mPageSettings);
-    addPageItem(tr("VESC Tool Settings"), "://res/icons/Settings-96.png", "", true);
+    addPageItem(tr("APP SETTINGS"), "://res/icons/Settings-96.png", "", true, false);
 
     // Adjust sizes
     QFontMetrics fm(this->font());
