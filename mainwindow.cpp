@@ -34,7 +34,7 @@
 #include "widgets/detectallfocdialog.h"
 
 namespace {
-void stepTowards(double &value, double goal, double step) {
+/*void stepTowards(double &value, double goal, double step) {
     if (value < goal) {
         if ((value + step) < goal) {
             value += step;
@@ -49,7 +49,7 @@ void stepTowards(double &value, double goal, double step) {
         }
     }
 }
-
+*/
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
@@ -178,7 +178,7 @@ MainWindow::~MainWindow()
 
     delete ui;
 }
-
+/*
 bool MainWindow::eventFilter(QObject *object, QEvent *e)
 {
     Q_UNUSED(object);
@@ -263,7 +263,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *e)
 
     return false;
 }
-
+*/
 void MainWindow::timerSlot()
 {
     // Update status label
@@ -283,17 +283,17 @@ void MainWindow::timerSlot()
             }
         }
     }
-
+	/*
     // CAN fwd
     if (ui->actionCanFwd->isChecked() != mVesc->commands()->getSendCan()) {
         ui->actionCanFwd->setChecked(mVesc->commands()->getSendCan());
     }
-
+	*/
     // RT data
     if (ui->actionRtData->isChecked()) {
         mVesc->commands()->getValues();
     }
-
+	/*
     // APP RT data
     if (ui->actionRtDataApp->isChecked()) {
         mVesc->commands()->getDecodedAdc();
@@ -316,7 +316,7 @@ void MainWindow::timerSlot()
             mVesc->commands()->sendAlive();
         }
     }
-
+	*/
     // Read configurations if they haven't been read since starting VESC Tool
     if (mVesc->isPortConnected()) {
         static int conf_cnt = 0;
@@ -337,11 +337,11 @@ void MainWindow::timerSlot()
     if (mVesc->commands()->getFirmwareUploadProgress() > 0.1) {
         ui->actionSendAlive->setChecked(false);
         ui->actionRtData->setChecked(false);
-        ui->actionRtDataApp->setChecked(false);
-        ui->actionIMU->setChecked(false);
-        ui->actionKeyboardControl->setChecked(false);
+        //ui->actionRtDataApp->setChecked(false);
+        //ui->actionIMU->setChecked(false);
+        //ui->actionKeyboardControl->setChecked(false);
     }
-
+	/*
     // Handle key events
     static double keyPower = 0.0;
     static double lastKeyPower = 0.0;
@@ -383,7 +383,7 @@ void MainWindow::timerSlot()
         mVesc->commands()->setDutyCycle(keyPower);
         ui->actionSendAlive->setChecked(true);
     }
-
+	*/
     // Run startup checks
     static bool has_run_start_checks = false;
     if (!has_run_start_checks) {
@@ -569,24 +569,24 @@ void MainWindow::on_stopButton_clicked()
 void MainWindow::on_fullBrakeButton_clicked()
 {
     mVesc->commands()->setDutyCycle(0);
-    ui->actionSendAlive->setChecked(true);
+   ui->actionSendAlive->setChecked(true);
 }
 
 void MainWindow::on_actionReadMcconf_triggered()
 {
     mVesc->commands()->getMcconf();
 }
-
+/*
 void MainWindow::on_actionReadMcconfDefault_triggered()
 {
     mVesc->commands()->getMcconfDefault();
 }
-
+*/
 void MainWindow::on_actionWriteMcconf_triggered()
 {
     mVesc->commands()->setMcconf();
 }
-
+/*
 void MainWindow::on_actionReadAppconf_triggered()
 {
     mVesc->commands()->getAppConf();
@@ -601,7 +601,7 @@ void MainWindow::on_actionWriteAppconf_triggered()
 {
     mVesc->commands()->setAppConf();
 }
-
+*/
 void MainWindow::on_actionSaveMotorConfXml_triggered()
 {
     QString path;
@@ -768,7 +768,10 @@ void MainWindow::addPageItem(QString name, QString icon, QString groupIcon, bool
     PageListItem *li = new PageListItem(name, icon, groupIcon, this);
     li->setBold(bold);
     li->setIndented(indented);
+	//li->setContentsMargins(11,20,11,20);
+	//li->setMinimumSize(100,100);
     ui->pageList->setItemWidget(item, li);
+	
 }
 
 void MainWindow::saveParamFileDialog(QString conf, bool wrapIfdef)
@@ -836,27 +839,25 @@ void MainWindow::reloadPages()
         ui->pageWidget->removeWidget(widget);
         widget->deleteLater();
     }
-	/*
-    mPageWelcome = new PageWelcome(this);
-    mPageWelcome->setVesc(mVesc);
-    ui->pageWidget->addWidget(mPageWelcome);
-    addPageItem(tr("Welcome & Wizards"), "://res/icons/Home-96.png", "", true);
-    connect(ui->actionAutoSetupFOC, SIGNAL(triggered(bool)),
-            mPageWelcome, SLOT(startSetupWizardFocSimple()));
-    connect(ui->actionMotorSetupWizard, SIGNAL(triggered(bool)),
-            mPageWelcome, SLOT(startSetupWizardMotor()));
-    connect(ui->actionAppSetupWizard, SIGNAL(triggered(bool)),
-            mPageWelcome, SLOT(startSetupWizardApp()));
-	*/
+	
     mPageConnection = new PageConnection(this);
     mPageConnection->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageConnection);
     addPageItem(tr("CONNECTION"), "://res/icons/Connected-96.png","", true, false);
+	
+	//mPageFiller1 = new PageConnection(this);
+	//ui->pageWidget->addWidget(mPageFiller1);
+	//addPageItem(tr(""), "", "", true, false);
 
-    mPageFirmware = new PageFirmware(this);
-    mPageFirmware->setVesc(mVesc);
-    ui->pageWidget->addWidget(mPageFirmware);
-    addPageItem(tr("FIRMWARE"), "://res/icons/Electronics-96.png","", true, false);
+    //mPageFirmware = new PageFirmware(this);
+    //mPageFirmware->setVesc(mVesc);
+    //ui->pageWidget->addWidget(mPageFirmware);
+    //addPageItem(tr("FIRMWARE"), "://res/icons/Electronics-96.png","", true, false);
+
+	//mPageFiller2 = new PageFirmware(this);
+	//ui->pageWidget->addWidget(mPageFiller2);
+	//addPageItem(tr(""), "", "", true, false);
+
 	/*
     mPageMotorSettings = new PageMotorSettings(this);
     mPageMotorSettings->setVesc(mVesc);
@@ -885,6 +886,11 @@ void MainWindow::reloadPages()
     mPageFoc->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageFoc);
     addPageItem(tr("FOC"), "://res/icons/3ph_sine.png", "", true, false);
+
+	//mPageFiller3 = new PageFoc(this);
+	//ui->pageWidget->addWidget(mPageFiller3);
+	//addPageItem(tr(""), "", "", true, false);
+
 	/*
     mPageGpd = new PageGPD(this);
     mPageGpd->setVesc(mVesc);
@@ -896,6 +902,11 @@ void MainWindow::reloadPages()
     mPageControllers->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageControllers);
     addPageItem(tr("PID"), "://res/icons/Speed-96.png", "", true, false);
+
+	//mPageFiller4 = new PageControllers(this);
+	//ui->pageWidget->addWidget(mPageFiller4);
+	//addPageItem(tr(""), "", "", true, false);
+
 	/*
     mPageMotorInfo = new PageMotorInfo(this);
     mPageMotorInfo->setVesc(mVesc);
@@ -971,6 +982,11 @@ void MainWindow::reloadPages()
     mPageRtData->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageRtData);
     addPageItem(tr("REAL-TIME DATA"), "://res/icons/rt_off.png", "", true, false);
+
+	//mPageFiller5 = new PageRtData(this);
+	//ui->pageWidget->addWidget(mPageFiller5);
+	//addPageItem(tr(""), "", "", true, false);
+
 	/*
     mPageSampledData = new PageSampledData(this);
     mPageSampledData->setVesc(mVesc);
@@ -991,6 +1007,11 @@ void MainWindow::reloadPages()
     mPageTerminal->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageTerminal);
     addPageItem(tr("TERMINAL"), "://res/icons/Console-96.png", "", true, false);
+
+	//mPageFiller6 = new PageTerminal(this);
+	//ui->pageWidget->addWidget(mPageFiller6);
+	//addPageItem(tr(""), "", "", true, false);
+
 	/*
     mPageSwdProg = new PageSwdProg(this);
     mPageSwdProg->setVesc(mVesc);
@@ -1005,10 +1026,22 @@ void MainWindow::reloadPages()
     ui->pageWidget->addWidget(mPageSettings);
     addPageItem(tr("APP SETTINGS"), "://res/icons/Settings-96.png", "", true, false);
 
+
+	mPageWelcome = new PageWelcome(this);
+	mPageWelcome->setVesc(mVesc);
+	ui->pageWidget->addWidget(mPageWelcome);
+	addPageItem(tr("RUN"), "://res/icons/Polyline-96.png", "", true);
+	connect(ui->actionAutoSetupFOC, SIGNAL(triggered(bool)),
+			mPageWelcome, SLOT(startSetupWizardFocSimple()));
+	connect(ui->actionMotorSetupWizard, SIGNAL(triggered(bool)),
+			mPageWelcome, SLOT(startSetupWizardMotor()));
+	connect(ui->actionAppSetupWizard, SIGNAL(triggered(bool)),
+			mPageWelcome, SLOT(startSetupWizardApp()));
+
     // Adjust sizes
     QFontMetrics fm(this->font());
     int width = fm.width("Welcome & Wizards++++++");
-    int height = fm.height();
+    int height = fm.height()+20;
 
     for(int i = 0; i < ui->pageList->count(); i++) {
         QListWidgetItem *item = ui->pageList->item(i);
@@ -1230,7 +1263,7 @@ void MainWindow::on_actionTerminalDRV8301ResetLatchedFaults_triggered()
 {
     mVesc->commands()->sendTerminalCmd("drv8301_reset_faults");
 }
-
+/*
 void MainWindow::on_actionCanFwd_toggled(bool arg1)
 {
     if (arg1 && mVesc->commands()->getCanSendId() < 0) {
@@ -1242,7 +1275,7 @@ void MainWindow::on_actionCanFwd_toggled(bool arg1)
         mVesc->commands()->setSendCan(arg1);
     }
 }
-
+*/
 void MainWindow::on_actionSafetyInformation_triggered()
 {
     HelpDialog::showHelp(this, mVesc->infoConfig(), "wizard_startup_usage");

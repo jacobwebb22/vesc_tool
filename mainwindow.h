@@ -28,13 +28,13 @@
 #include "vescinterface.h"
 #include "widgets/pagelistitem.h"
 
-//#include "pages/pagewelcome.h"
+#include "pages/pagewelcome.h"
 #include "pages/pageconnection.h"
 //#include "pages/pagedataanalysis.h"
 #include "pages/pagertdata.h"
 //#include "pages/pagesampleddata.h"
 #include "pages/pageterminal.h"
-#include "pages/pagefirmware.h"
+//#include "pages/pagefirmware.h"
 //#include "pages/pagedebugprint.h"
 //#include "pages/pagemotorsettings.h"
 //#include "pages/pagemotor.h"
@@ -70,7 +70,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    bool eventFilter(QObject *object, QEvent *e);
+    //bool eventFilter(QObject *object, QEvent *e);
 
 private slots:
     void timerSlot();
@@ -89,11 +89,11 @@ private slots:
     void on_stopButton_clicked();
     void on_fullBrakeButton_clicked();
     void on_actionReadMcconf_triggered();
-    void on_actionReadMcconfDefault_triggered();
+    //void on_actionReadMcconfDefault_triggered();
     void on_actionWriteMcconf_triggered();
-    void on_actionReadAppconf_triggered();
-    void on_actionReadAppconfDefault_triggered();
-    void on_actionWriteAppconf_triggered();
+    //void on_actionReadAppconf_triggered();
+    //void on_actionReadAppconfDefault_triggered();
+    //void on_actionWriteAppconf_triggered();
     void on_actionSaveMotorConfXml_triggered();
     void on_actionLoadMotorConfXml_triggered();
     void on_actionSaveAppconfXml_triggered();
@@ -120,7 +120,7 @@ private slots:
     void on_actionTerminalClear_triggered();
     void on_actionTerminalPrintThreads_triggered();
     void on_actionTerminalDRV8301ResetLatchedFaults_triggered();
-    void on_actionCanFwd_toggled(bool arg1);
+    //void on_actionCanFwd_toggled(bool arg1);
     void on_actionSafetyInformation_triggered();
     void on_actionWarrantyStatement_triggered();
     void on_actionVESCToolChangelog_triggered();
@@ -145,22 +145,28 @@ private:
     bool mMcConfRead;
     bool mAppConfRead;
 
-    //PageWelcome *mPageWelcome;
+    PageWelcome *mPageWelcome;
     PageConnection *mPageConnection;
+	//PageConnection* mPageFiller1;
     //PageDataAnalysis *mPageDataAnalysis;
     PageRtData *mPageRtData;
+	//PageRtData *mPageFiller5;
     //PageSampledData *mPageSampledData;
     //PageImu *mPageImu;
     PageTerminal *mPageTerminal;
-    PageFirmware *mPageFirmware;
+	//PageTerminal *mPageFiller6;
+    //PageFirmware *mPageFirmware;
+	//PageFirmware *mPageFiller2;
     //PageDebugPrint *mPageDebugPrint;
     //PageMotorSettings *mPageMotorSettings;
     //PageMotor *mPageMotor;
     //PageBldc *mPageBldc;
     //PageDc *mPageDc;
     PageFoc *mPageFoc;
+	//PageFoc *mPageFiller3;
     //PageGPD *mPageGpd;
     PageControllers *mPageControllers;
+	//PageControllers *mPageFiller4;
     //PageMotorInfo *mPageMotorInfo;
     //PageExperiments *mPageExperiments;
     //PageAppSettings *mPageAppSettings;

@@ -67,14 +67,20 @@
           </property>
           <property name="font">
            <font>
-            <pointsize>11</pointsize>
+            <pointsize>18</pointsize>
            </font>
+          </property>
+          <property name="layoutDirection">
+           <enum>Qt::LeftToRight</enum>
           </property>
           <property name="editTriggers">
            <set>QAbstractItemView::NoEditTriggers</set>
           </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="spacing">
+           <number>20</number>
           </property>
          </widget>
         </item>
@@ -559,8 +565,8 @@
    </property>
    <property name="iconSize">
     <size>
-     <width>24</width>
-     <height>24</height>
+     <width>60</width>
+     <height>60</height>
     </size>
    </property>
    <property name="toolButtonStyle">
@@ -576,22 +582,26 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionReconnect"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="actionDisconnect"/>
    <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="actionReadMcconf"/>
-   <addaction name="actionReadMcconfDefault"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="actionWriteMcconf"/>
    <addaction name="separator"/>
-   <addaction name="actionReadAppconf"/>
-   <addaction name="actionReadAppconfDefault"/>
-   <addaction name="actionWriteAppconf"/>
    <addaction name="separator"/>
-   <addaction name="actionKeyboardControl"/>
+   <addaction name="separator"/>
    <addaction name="actionRtData"/>
-   <addaction name="actionRtDataApp"/>
-   <addaction name="actionIMU"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="actionSendAlive"/>
-   <addaction name="actionCanFwd"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionReadMcconf">
@@ -604,18 +614,6 @@
    </property>
    <property name="toolTip">
     <string>Read motor Configuration</string>
-   </property>
-  </action>
-  <action name="actionReadMcconfDefault">
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/res/icons/motor_default.png</normaloff>:/res/icons/motor_default.png</iconset>
-   </property>
-   <property name="text">
-    <string>readMcconfDefault</string>
-   </property>
-   <property name="toolTip">
-    <string>Read default motor configuration</string>
    </property>
   </action>
   <action name="actionWriteMcconf">
@@ -672,22 +670,6 @@
     <string>Reboot</string>
    </property>
   </action>
-  <action name="actionCanFwd">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/res/icons/can_off.png</normaloff>
-     <normalon>:/res/icons/can_on.png</normalon>:/res/icons/can_off.png</iconset>
-   </property>
-   <property name="text">
-    <string>canFwd</string>
-   </property>
-   <property name="toolTip">
-    <string>Forward communication over CAN-bus</string>
-   </property>
-  </action>
   <action name="actionReconnect">
    <property name="icon">
     <iconset resource="res.qrc">
@@ -714,42 +696,6 @@
    </property>
    <property name="toolTip">
     <string>Stream realtime data</string>
-   </property>
-  </action>
-  <action name="actionReadAppconf">
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/res/icons/app_up.png</normaloff>:/res/icons/app_up.png</iconset>
-   </property>
-   <property name="text">
-    <string>readAppconf</string>
-   </property>
-   <property name="toolTip">
-    <string>Read app configuration</string>
-   </property>
-  </action>
-  <action name="actionReadAppconfDefault">
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/res/icons/app_default.png</normaloff>:/res/icons/app_default.png</iconset>
-   </property>
-   <property name="text">
-    <string>readAppconfDefault</string>
-   </property>
-   <property name="toolTip">
-    <string>Read default app configuration</string>
-   </property>
-  </action>
-  <action name="actionWriteAppconf">
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/res/icons/app_down.png</normaloff>:/res/icons/app_down.png</iconset>
-   </property>
-   <property name="text">
-    <string>writeAppconf</string>
-   </property>
-   <property name="toolTip">
-    <string>Write app configuration</string>
    </property>
   </action>
   <action name="actionSaveAppconfXml">
@@ -786,22 +732,6 @@
    </property>
    <property name="text">
     <string>About VESC Tool</string>
-   </property>
-  </action>
-  <action name="actionKeyboardControl">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="res.qrc">
-     <normaloff>:/res/icons/keys_off.png</normaloff>
-     <normalon>:/res/icons/keys_on.png</normalon>:/res/icons/keys_off.png</iconset>
-   </property>
-   <property name="text">
-    <string>keyboardControl</string>
-   </property>
-   <property name="toolTip">
-    <string>Use arrow keys to control motor</string>
    </property>
   </action>
   <action name="actionParameterEditorMcconf">

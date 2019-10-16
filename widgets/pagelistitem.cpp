@@ -39,7 +39,6 @@ PageListItem::PageListItem(QString name,
 
     QHBoxLayout *layout = new QHBoxLayout;
     layout->setMargin(0);
-
     layout->addSpacerItem(mSpaceStart);
     layout->addWidget(mIconLabel);
     layout->addWidget(mNameLabel);
@@ -61,7 +60,7 @@ void PageListItem::setIcon(const QString &path)
         mIconLabel->setPixmap(QPixmap(path));
 
         QFontMetrics fm(this->font());
-        int height = fm.height() * 0.9;
+        int height = fm.height() * 1.1;
 
         mIconLabel->setFixedSize(height, height);
     } else {
@@ -76,7 +75,7 @@ void PageListItem::setGroupIcon(const QString &path)
         mGroupLabel->setPixmap(pix);
 
         QFontMetrics fm(this->font());
-        int height = fm.height() * 0.9;
+        int height = fm.height() * 1.1;
 
         mGroupLabel->setFixedSize((height * pix.width()) / pix.height(), height);
     } else {
