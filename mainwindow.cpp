@@ -70,7 +70,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
     str.sprintf("%s (%s:%u %s): %s", typeStr.toLocal8Bit().data(),
                 context.file, context.line, context.function, localMsg.constData());
-	/*
+
     if (PageDebugPrint::currentMsgHandler) {
         QString strTmp;
         if (isBad) {
@@ -82,7 +82,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         QMetaObject::invokeMethod(PageDebugPrint::currentMsgHandler, "printConsole",
                                   Qt::QueuedConnection, Q_ARG(QString, strTmp));
     }
-	*/
+	
     printf("%s\n", str.toLocal8Bit().data());
     fflush(stdout);
 }
@@ -771,7 +771,7 @@ void MainWindow::addPageItem(QString name, QString icon, QString groupIcon, bool
 	//li->setContentsMargins(11,20,11,20);
 	//li->setMinimumSize(100,100);
     ui->pageList->setItemWidget(item, li);
-	
+
 }
 
 void MainWindow::saveParamFileDialog(QString conf, bool wrapIfdef)
@@ -839,12 +839,12 @@ void MainWindow::reloadPages()
         ui->pageWidget->removeWidget(widget);
         widget->deleteLater();
     }
-	
+
     mPageConnection = new PageConnection(this);
     mPageConnection->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageConnection);
     addPageItem(tr("CONNECTION"), "://res/icons/Connected-96.png","", true, false);
-	
+
 	//mPageFiller1 = new PageConnection(this);
 	//ui->pageWidget->addWidget(mPageFiller1);
 	//addPageItem(tr(""), "", "", true, false);
@@ -863,13 +863,13 @@ void MainWindow::reloadPages()
     mPageMotorSettings->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageMotorSettings);
     addPageItem(tr("Motor Settings"), "://res/icons/motor.png", "", true);
-	
+
     mPageMotor = new PageMotor(this);
     mPageMotor->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageMotor);
     addPageItem(tr("General"), "://res/icons/Horizontal Settings Mixer-96.png",
                 "://res/icons/mcconf.png", false, true);
-	
+
     mPageBldc = new PageBldc(this);
     mPageBldc->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageBldc);
@@ -924,7 +924,7 @@ void MainWindow::reloadPages()
     mPageAppSettings->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageAppSettings);
     addPageItem(tr("App Settings"), "://res/icons/Outgoing Data-96.png", "", true);
-	
+
     mPageAppGeneral = new PageAppGeneral(this);
     mPageAppGeneral->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageAppGeneral);
@@ -972,7 +972,7 @@ void MainWindow::reloadPages()
     ui->pageWidget->addWidget(mPageAppImu);
     addPageItem(tr("IMU"), "://res/icons/Gyroscope-96.png",
                 "://res/icons/appconf.png", false, true);
-	
+
     mPageDataAnalysis = new PageDataAnalysis(this);
     mPageDataAnalysis->setVesc(mVesc);
     ui->pageWidget->addWidget(mPageDataAnalysis);
