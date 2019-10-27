@@ -51,6 +51,7 @@ namespace {
 }
 */
 
+/*
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
@@ -71,7 +72,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
     str.sprintf("%s (%s:%u %s): %s", typeStr.toLocal8Bit().data(),
                 context.file, context.line, context.function, localMsg.constData());
-/*
+//
     if (PageDebugPrint::currentMsgHandler) {
         QString strTmp;
         if (isBad) {
@@ -83,11 +84,12 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         QMetaObject::invokeMethod(PageDebugPrint::currentMsgHandler, "printConsole",
                                   Qt::QueuedConnection, Q_ARG(QString, strTmp));
     }
-*/
+//
     printf("%s\n", str.toLocal8Bit().data());
     fflush(stdout);
 }
-
+}
+*/
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -142,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(appconfUpdated()));
 
     qApp->installEventFilter(this);
-    qInstallMessageHandler(myMessageOutput);
+    //qInstallMessageHandler(myMessageOutput);
 
     mTimer->start(20);
 
