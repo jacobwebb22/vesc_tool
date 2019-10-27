@@ -55,7 +55,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     QByteArray localMsg = msg.toLocal8Bit();
     QString str;
     QString typeStr;
-    bool isBad = false;
+    //bool isBad = false;
 
     switch (type) {
     case QtDebugMsg: typeStr = "DEBUG"; break;
@@ -70,7 +70,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
     str.sprintf("%s (%s:%u %s): %s", typeStr.toLocal8Bit().data(),
                 context.file, context.line, context.function, localMsg.constData());
-
+/*
     if (PageDebugPrint::currentMsgHandler) {
         QString strTmp;
         if (isBad) {
@@ -82,7 +82,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
         QMetaObject::invokeMethod(PageDebugPrint::currentMsgHandler, "printConsole",
                                   Qt::QueuedConnection, Q_ARG(QString, strTmp));
     }
-	
+*/
     printf("%s\n", str.toLocal8Bit().data());
     fflush(stdout);
 }
