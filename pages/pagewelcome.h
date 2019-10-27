@@ -39,12 +39,13 @@ public:
     void setVesc(VescInterface *vesc);
 
 public slots:
-    void startSetupWizardFocSimple();
-    void startSetupWizardMotor();
-    void startSetupWizardApp();
+    //void startSetupWizardFocSimple();
+    //void startSetupWizardMotor();
+    //void startSetupWizardApp();
 
 private slots:
     void on_autoConnectButton_clicked();
+    void on_posButton2_clicked();
 
 private:
     Ui::PageWelcome *ui;

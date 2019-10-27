@@ -16,17 +16,7 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="ImageWidget" name="bgWidget" native="true">
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,0">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt;&quot;&gt;Welcome to &lt;/span&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;VESC® Tool&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;To get started, you can use the &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-style:italic;&quot;&gt;Setup Wizards&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt; to configure the motor and app settings respectively. Otherwise, you can connect to your VESC in the &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-style:italic;&quot;&gt;Connection&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt; page and go through the motor and app configuration pages manually.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0">
       <item>
        <widget class="QGroupBox" name="groupBox">
         <property name="sizePolicy">
@@ -39,6 +29,88 @@
          <string>Wizards</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QDoubleSpinBox" name="posBox2">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Maximum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>300</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>69</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QDoubleSpinBox::up-button { width: 80px; }
+QDoubleSpinBox::down-button { width: 80px; }</string>
+             </property>
+             <property name="frame">
+              <bool>true</bool>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="decimals">
+              <number>1</number>
+             </property>
+             <property name="singleStep">
+              <double>0.500000000000000</double>
+             </property>
+             <property name="value">
+              <double>5.000000000000000</double>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="posButton2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>41</pointsize>
+               <weight>75</weight>
+               <bold>true</bold>
+              </font>
+             </property>
+             <property name="text">
+              <string>RUN</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <property name="spacing">
@@ -71,26 +143,6 @@
              </property>
              <property name="text">
               <string>Setup Motors FOC</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../res.qrc">
-               <normaloff>:/res/icons/Wizard-96.png</normaloff>:/res/icons/Wizard-96.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>45</width>
-               <height>45</height>
-              </size>
-             </property>
-             <property name="flat">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="wizardAppButton">
-             <property name="text">
-              <string>Setup Input</string>
              </property>
              <property name="icon">
               <iconset resource="../res.qrc">

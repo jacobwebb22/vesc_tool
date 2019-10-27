@@ -34,17 +34,15 @@ PageWelcome::PageWelcome(QWidget *parent) :
     mVesc = 0;
     ui->bgWidget->setPixmap(QPixmap("://res/bg.png"));
 
-    connect(ui->wizardFocSimpleButton, SIGNAL(clicked(bool)),
-            this, SLOT(startSetupWizardFocSimple()));
-    connect(ui->wizardAppButton, SIGNAL(clicked(bool)),
-            this, SLOT(startSetupWizardApp()));
+    //connect(ui->wizardFocSimpleButton, SIGNAL(clicked(bool)),this, SLOT(startSetupWizardFocSimple()));
+    //connect(ui->wizardAppButton, SIGNAL(clicked(bool)),this, SLOT(startSetupWizardApp()));
 }
 
 PageWelcome::~PageWelcome()
 {
     delete ui;
 }
-
+/*
 void PageWelcome::startSetupWizardFocSimple()
 {
     if (mVesc) {
@@ -67,7 +65,7 @@ void PageWelcome::startSetupWizardApp()
         w.exec();
     }
 }
-
+*/
 VescInterface *PageWelcome::vesc() const
 {
     return mVesc;
@@ -81,4 +79,10 @@ void PageWelcome::setVesc(VescInterface *vesc)
 void PageWelcome::on_autoConnectButton_clicked()
 {
     Utility::autoconnectBlockingWithProgress(mVesc, this);
+}
+
+void PageWelcome::on_posButton2_clicked()
+{
+    mVesc->commands()->setPos(ui->posBox2->value());
+    //ui->actionSendAlive->setChecked(true);
 }
