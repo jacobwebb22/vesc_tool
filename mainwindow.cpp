@@ -51,7 +51,7 @@ namespace {
 }
 */
 
-/*
+
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
@@ -81,15 +81,14 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
             strTmp = str + "<br>";
         }
 
-        QMetaObject::invokeMethod(PageDebugPrint::currentMsgHandler, "printConsole",
-                                  Qt::QueuedConnection, Q_ARG(QString, strTmp));
+        //QMetaObject::invokeMethod(PageDebugPrint::currentMsgHandler, "printConsole", Qt::QueuedConnection, Q_ARG(QString, strTmp));
     }
 //
     printf("%s\n", str.toLocal8Bit().data());
     fflush(stdout);
 }
 }
-*/
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -144,7 +143,7 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(appconfUpdated()));
 
     qApp->installEventFilter(this);
-    //qInstallMessageHandler(myMessageOutput);
+    qInstallMessageHandler(myMessageOutput);
 
     mTimer->start(20);
 
