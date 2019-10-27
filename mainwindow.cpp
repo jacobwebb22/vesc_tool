@@ -50,12 +50,13 @@ namespace {
     }
 }
 */
+
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
     QByteArray localMsg = msg.toLocal8Bit();
     QString str;
     QString typeStr;
-    //bool isBad = false;
+    bool isBad = false;
 
     switch (type) {
     case QtDebugMsg: typeStr = "DEBUG"; break;
@@ -86,7 +87,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     printf("%s\n", str.toLocal8Bit().data());
     fflush(stdout);
 }
-}
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
