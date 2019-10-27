@@ -73,16 +73,16 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     str.sprintf("%s (%s:%u %s): %s", typeStr.toLocal8Bit().data(),
                 context.file, context.line, context.function, localMsg.constData());
 //
-    if (PageDebugPrint::currentMsgHandler) {
-        QString strTmp;
-        if (isBad) {
-            strTmp = "<font color=\"red\">" + str + "</font><br>";
-        } else {
-            strTmp = str + "<br>";
-        }
+    //if (PageDebugPrint::currentMsgHandler) {
+    //    QString strTmp;
+    //    if (isBad) {
+    //        strTmp = "<font color=\"red\">" + str + "</font><br>";
+    //    } else {
+    //        strTmp = str + "<br>";
+    //    }
 
         //QMetaObject::invokeMethod(PageDebugPrint::currentMsgHandler, "printConsole", Qt::QueuedConnection, Q_ARG(QString, strTmp));
-    }
+  //  }
 //
     printf("%s\n", str.toLocal8Bit().data());
     fflush(stdout);
