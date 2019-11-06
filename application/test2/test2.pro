@@ -9,7 +9,6 @@ QT += widgets
 QT += serialport
 QT += network
 QT += printsupport
-QT += quick
 
 TARGET = application
 TEMPLATE = app
@@ -29,25 +28,27 @@ contains(DEFINES, HAS_BLUETOOTH) {
 }
 
 SOURCES += main.cpp\
+    mainwindow.cpp \
     commands.cpp \
     configparam.cpp \
     configparams.cpp \
     packet.cpp \
     vescinterface.cpp \
     vbytearray.cpp \
-    utility.cpp \
-    tcpserversimple.cpp
+    utility.cpp
 
-HEADERS  += commands.h \
+HEADERS  += mainwindow.h \
+    commands.h \
     configparam.h \
     configparams.h \
     datatypes.h \
     packet.h \
     vescinterface.h \
     vbytearray.h \
-    utility.h \
-    tcpserversimple.h
+    utility.h
 
+FORMS += mainwindow.ui
+    
 contains(DEFINES, HAS_BLUETOOTH) {
     SOURCES += bleuart.cpp
     HEADERS += bleuart.h
@@ -56,5 +57,5 @@ contains(DEFINES, HAS_BLUETOOTH) {
 include(widgets/widgets.pri)
 
 RESOURCES += \
-    res.qrc \
-    qml.qrc
+    res.qrc
+
