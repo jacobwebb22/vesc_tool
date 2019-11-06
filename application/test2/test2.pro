@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     packet.cpp \
     vescinterface.cpp \
     vbytearray.cpp \
-    utility.cpp
+    utility.cpp \
+    tcpsimpleserver.cpp
 
 HEADERS  += mainwindow.h \
     commands.h \
@@ -45,10 +46,11 @@ HEADERS  += mainwindow.h \
     packet.h \
     vescinterface.h \
     vbytearray.h \
-    utility.h
+    utility.h \
+    tcpsimpleserver.h
 
 FORMS += mainwindow.ui
-    
+
 contains(DEFINES, HAS_BLUETOOTH) {
     SOURCES += bleuart.cpp
     HEADERS += bleuart.h
@@ -58,4 +60,3 @@ include(widgets/widgets.pri)
 
 RESOURCES += \
     res.qrc
-
