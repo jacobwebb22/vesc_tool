@@ -36,7 +36,7 @@ SOURCES += main.cpp\
     vescinterface.cpp \
     vbytearray.cpp \
     utility.cpp \
-    tcpsimpleserver.cpp
+    tcpserversimple.cpp
 
 HEADERS  += mainwindow.h \
     commands.h \
@@ -47,7 +47,7 @@ HEADERS  += mainwindow.h \
     vescinterface.h \
     vbytearray.h \
     utility.h \
-    tcpsimpleserver.h
+    tcpserversimple.h
 
 FORMS += mainwindow.ui
 
