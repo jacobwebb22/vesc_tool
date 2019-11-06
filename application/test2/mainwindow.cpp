@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-	
+
 	mVesc = new VescInterface(this);
     mVesc->mcConfig()->loadParamsXml("://res/parameters_mcconf.xml");
     mVesc->appConfig()->loadParamsXml("://res/parameters_appconf.xml");
@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(mTimer, SIGNAL(timeout()), this, SLOT(timerSlot()));
     connect(mVesc->commands(), SIGNAL(valuesReceived(MC_VALUES,unsigned int)),
             this, SLOT(valuesReceived(MC_VALUES,unsigned int)));
+    connect(mVesc->commands(), SIGNAL(encoderParamReceived(double,double,bool)),
+            this, SLOT(encoderParamReceived(double,double,bool)));
 }
 
 MainWindow::~MainWindow()
@@ -64,6 +66,24 @@ void MainWindow::valuesReceived(MC_VALUES values, unsigned int mask)
                     values.v_in,
                     values.current_motor));
 }
+/*
+void MainWindow::valuesReceived(MC_VALUES values, unsigned int mask)
+{
+    (void)mask;
+    ui->dispCurrent->setVal(values.current_motor);
+    ui->dispDuty->setVal(values.duty_now * 100.0);
+}
+*/
+
+void MainWindow::on_actionReadMcconf_triggered()
+{
+    mVesc->commands()->getMcconf();
+}
+
+void MainWindow::on_actionWriteMcconf_triggered()
+{
+    mVesc->commands()->setMcconf();
+}
 
 void MainWindow::on_connectButton_clicked()
 {
@@ -73,4 +93,53 @@ void MainWindow::on_connectButton_clicked()
 void MainWindow::on_disconnectButton_clicked()
 {
     mVesc->disconnectPort();
+}
+
+void MainWindow::on_stopButton_clicked()
+{
+    mVesc->commands()->setCurrent(0);
+}
+
+void MainWindow::on_posButton_clicked()
+{
+    mVesc->commands()->setPos(ui->posBox->value());
+}
+
+void MainWindow::on_startButton_clicked()
+{
+    if (mVesc) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::warning(this,
+                                     tr("Detect FOC Encoder Parameters"),
+                                     tr("This is going to turn the motor slowly. Make "
+                                        "sure that nothing is in the way."),
+                                     QMessageBox::Ok | QMessageBox::Cancel);
+
+        if (reply == QMessageBox::Ok) {
+            mVesc->commands()->measureEncoder(ui->currentBox->value());
+        }
+    }
+}
+
+void MainWindow::on_applyButton_clicked()
+{
+    if (mVesc) {
+        mVesc->mcConfig()->updateParamDouble("foc_encoder_offset", ui->offsetBox->value());
+        mVesc->mcConfig()->updateParamDouble("foc_encoder_ratio", ui->ratioBox->value());
+        mVesc->mcConfig()->updateParamBool("foc_encoder_inverted", ui->invertedBox->currentIndex() != 0);
+        mVesc->emitStatusMessage(tr("Encoder Parameters Applied"), true);
+    }
+}
+
+void MainWindow::encoderParamReceived(double offset, double ratio, bool inverted)
+{
+    if (offset > 1000.0) {
+        mVesc->emitStatusMessage(tr("Encoder not enabled in firmware"), false);
+        QMessageBox::critical(this, "Error", "Encoder support is not enabled. Enable it in the general settings.");
+    } else {
+        mVesc->emitStatusMessage(tr("Encoder Result Received"), true);
+        ui->offsetBox->setValue(offset);
+        ui->ratioBox->setValue(ratio);
+        ui->invertedBox->setCurrentIndex(inverted ? 1 : 0);
+    }
 }
